@@ -12,14 +12,14 @@ Storage.prototype.add = function(name) {
     return item;
 };
 
-Storage.prototype.update = function(pid, bname, bid) {
-    pid = parseInt(pid);
+Storage.prototype.update = function(paramID, itemName, itemID) {
+    paramID = parseInt(paramID);
 
-    var itemIdx = this.items.map(function (i) { return i.id; }).indexOf(pid),
-    item = {name: bname, id: pid};
+    var itemIdx = this.items.map(function (i) { return i.id; }).indexOf(paramID);
 
     if(itemIdx >= 0) {
-      this.items[itemIdx] = item;
+      this.items[itemIdx].name = itemName;
+      this.items[itemIdx].id = paramID;
     } else {
       this.items.push(item);
     }
@@ -91,3 +91,6 @@ app.delete('/items/:id', jsonParser, function(req, res) {
 });
 
 app.listen(process.env.PORT || 8080);
+
+exports.app = app;
+exports.storage = storage;
