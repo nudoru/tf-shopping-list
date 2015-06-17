@@ -15,12 +15,14 @@ Storage.prototype.add = function(name) {
 Storage.prototype.update = function(paramID, itemName, itemID) {
     paramID = parseInt(paramID);
 
-    var itemIdx = this.items.map(function (i) { return i.id; }).indexOf(paramID);
+    var itemIdx = this.items.map(function (i) { return i.id; }).indexOf(paramID), item;
 
     if(itemIdx >= 0) {
       this.items[itemIdx].name = itemName;
       this.items[itemIdx].id = paramID;
+      item = this.items[itemIdx];
     } else {
+      item = {name: itemName, id: paramID};
       this.items.push(item);
     }
 
@@ -73,7 +75,6 @@ app.put('/items/:id', jsonParser, function(req, res) {
     if (!req.body) {
         return res.sendStatus(400);
     }
-
     var item = storage.update(req.params.id, req.body.name, req.body.id);
     res.status(200).json(item);
 });
